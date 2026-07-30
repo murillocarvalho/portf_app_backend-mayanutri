@@ -18,8 +18,8 @@ jobs:
       - name: Extract app-version
         id: extract
         run: |
-          APP_NAME=$(jq -r '.name' version.json)
-          APP_VERSION=$(jq -r '.version' version.json)
+          APP_NAME=$(jq -r '.name' app-version.json)
+          APP_VERSION=$(jq -r '.version' app-version.json)
 
           echo "name=$APP_NAME" >> GITHUB_OUTPUT
           echo "version=$APP_VERSION" >> GITHUB_OUTPUT
