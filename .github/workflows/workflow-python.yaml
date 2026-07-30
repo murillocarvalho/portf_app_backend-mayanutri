@@ -4,13 +4,38 @@ on:
   push:
     branches:
       - master
+      - release
 
 
 jobs:
   build:
     name: Build and analyze
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     
+    steps:
+      - name: Runner checkout
+      - uses: actions/checkout@v4
+
+      - name: Extract app-version
+        id: extract
+        run: |
+          APP_NAME=$(jq -r '.name' version.json)
+          APP_VERSION=$(jq -r '.version' version.json)
+
+          echo "name=$APP_NAME" >> GITHUB_OUTPUT
+          echo "version=$APP_VERSION" >> GITHUB_OUTPUT
+      
+      - name: Build
+      - run: |
+          APP_NAME="${{ steps.extract.outputs.name }}"
+          APP_VERSION="{{ steps.extract.outputs.version }}"
+          
+          docker build -t "$APP_NAME:$APP_VERSION"
+
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
