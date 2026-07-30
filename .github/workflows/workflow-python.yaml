@@ -26,10 +26,10 @@ jobs:
           echo "version=$APP_VERSION" >> GITHUB_OUTPUT
       
       - name: Build
-      - run: |
+        run: |
           APP_NAME="${{ steps.extract.outputs.name }}"
           APP_VERSION="{{ steps.extract.outputs.version }}"
-          
+
           docker build -t "$APP_NAME:$APP_VERSION"
 
   analyze:
