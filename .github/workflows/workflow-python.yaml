@@ -15,21 +15,13 @@ jobs:
       - name: Runner checkout
         uses: actions/checkout@v4
 
-      - name: Extract app-version
+      - name: Build image
         id: extract
         run: |
           APP_NAME=$(jq -r '.name' app-version.json)
           APP_VERSION=$(jq -r '.version' app-version.json)
 
-          echo "name=$APP_NAME" >> GITHUB_OUTPUT
-          echo "version=$APP_VERSION" >> GITHUB_OUTPUT
-      
-      - name: Build
-        run: |
-          APP_NAME="${{ steps.extract.outputs.name }}"
-          APP_VERSION="{{ steps.extract.outputs.version }}"
-
-          docker build -t "$APP_NAME:$APP_VERSION"
+          docker build -t "$APP_NAME:$APP_VERSION" .
 
   analyze:
     name: Analyze
@@ -44,6 +36,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       - uses: SonarSource/sonarqube-quality-gate-action@cf038b0e0cdecfa9e56c198bbb7d21d751d62c3b # v1.2.0
-        timeout-minutes: 5
+        timeout-minutes: 10
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
