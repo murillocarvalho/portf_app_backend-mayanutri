@@ -1,9 +1,9 @@
-FROM python:3.11-slim
+FROM python:3.11-alpine AS build
 
 WORKDIR /app
 
-COPY dist/*.whl /tmp/
+COPY . /app
 
-RUN pip install --no-cache-dir /tmp/*.whl && rm -rf /tmp/*.whl
+RUN pip install -r ./requirements.txt
 
 CMD ["python", "-m", "app"]
