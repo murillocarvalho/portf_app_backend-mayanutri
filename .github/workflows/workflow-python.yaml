@@ -8,6 +8,28 @@ on:
 
 
 jobs:
+		static-inspect:
+				name: Static Inspect
+				runs-on: ubuntu-latest
+				steps:
+      - name: Runner checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        id: install
+        run: |
+          pip install ruff
+          pip install mypy
+          pip install bandit
+
+      - name: Run inspection
+        id: static-inspection
+        run: |
+          ruff check .
+          ruff format --check .
+          mypy .
+          bandit -r . -ll
+
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -29,21 +51,4 @@ jobs:
           APP_NAME="${{ steps.extract.outputs.name }}"
           APP_VERSION="{{ steps.extract.outputs.version }}"
 
-          docker build -t "$APP_NAME:$APP_VERSION"
-
-  analyze:
-    name: Analyze
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - uses: SonarSource/sonarqube-scan-action@7006c4492b2e0ee0f816d36501671557c97f5995 # v8.1.0
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      - uses: SonarSource/sonarqube-quality-gate-action@cf038b0e0cdecfa9e56c198bbb7d21d751d62c3b # v1.2.0
-        timeout-minutes: 5
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          docker build -t "$APP_NAME:$APP_VERSION" 
