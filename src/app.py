@@ -9,7 +9,7 @@ from httpx import RequestError
 load_dotenv()
 url = os.getenv("SUPABASE_URL")
 key = os.getenv("SUPABASE_SECRET_KEY")
-supabase: Client = create_client(url, key)
+supabase: Client = create_client(str(url), str(key))
 
 app = Flask(__name__)
 # Allow all origins during development to avoid CORS blocking from the frontend
