@@ -3,6 +3,8 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 import os
 from supabase import create_client, Client
+from postgrest.exceptions import APIError
+from httpx import RequestError
 
 load_dotenv()
 url = os.getenv("SUPABASE_URL")
@@ -29,8 +31,20 @@ def insert():
     try:
         response = supabase.table("HelloWorld").insert({"name": usuario}).execute()
         return jsonify({"success": True, "message": "Usuário inserido com sucesso!", "data": response.data}), 200
-    except Exception as e:
-        return jsonify({"success": False, "message": "Erro ao inserir usuário", "error": str(e)}), 500
+    except APIError as e:
+        return jsonify({
+            "success": False, 
+            "message": "Erro do Supabase/Banco de Dados", 
+            "error": e.message,
+            "code": e.code
+        }), 400
 
+    # Captura erros de rede/conexão HTTP se o Supabase estiver fora
+    except RequestError as e:
+        return jsonify({
+            "success": False,
+            "message": "Erro de rede/conexão ao comunicar com o Supabase",
+            "error": str(e)
+        }), 503
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
