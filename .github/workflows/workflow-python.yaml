@@ -28,7 +28,7 @@ jobs:
         run: |
           ruff check --fix .
           mypy .
-          bandit -r . -ll -sk B201,B104
+          bandit -r . -ll -s B201,B104
 
   build:
     name: Build
