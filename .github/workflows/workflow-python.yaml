@@ -25,13 +25,14 @@ jobs:
       - name: Run inspection
         id: static-inspection
         run: |
-          ruff check .
+          ruff check --fix .
           ruff format --check .
           mypy .
           bandit -r . -ll
 
   build:
     name: Build
+    needs: static-inspect
     runs-on: ubuntu-latest
     steps:
       - name: Runner checkout
