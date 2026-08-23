@@ -21,6 +21,7 @@ jobs:
           pip install ruff
           pip install mypy
           pip install bandit
+          pip install -r requirements.txt
 
       - name: Run inspection
         id: static-inspection
