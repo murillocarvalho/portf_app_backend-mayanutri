@@ -1,7 +1,7 @@
+import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
-import os
 from supabase import create_client, Client
 from postgrest.exceptions import APIError
 from httpx import RequestError

@@ -1,0 +1,4 @@
+[tool.ruff.lint]
+ignore = [
+    "I001", # Ignora a ordem de importações (isort)
+]

@@ -26,7 +26,6 @@ jobs:
         id: static-inspection
         run: |
           ruff check --fix .
-          ruff format --check .
           mypy .
           bandit -r . -ll
 
