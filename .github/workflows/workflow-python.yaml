@@ -56,7 +56,6 @@ jobs:
   build:
     name: Build
     needs: static-inspect
-    needs: static-inspect
     runs-on: ubuntu-latest
     steps:
       - name: Runner checkout
