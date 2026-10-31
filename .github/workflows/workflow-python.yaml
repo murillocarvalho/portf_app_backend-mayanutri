@@ -47,6 +47,7 @@ jobs:
 
   inspect:
     name: SonarQube Analysis
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Runner checkout
