@@ -9,8 +9,8 @@ on:
 
 
 jobs:
-  static-inspect:
-    name: Static Inspect
+  build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Runner checkout
@@ -28,15 +28,6 @@ jobs:
           ruff check --fix .
           mypy .
           bandit -r . -ll -s B201,B104
-          pytest
-
-  build:
-    name: Build
-    needs: static-inspect
-    runs-on: ubuntu-latest
-    steps:
-      - name: Runner checkout
-        uses: actions/checkout@v4
 
       - name: Build
         run: |
@@ -46,7 +37,7 @@ jobs:
           docker build -t "$APP_NAME:$APP_VERSION" . 
 
   inspect:
-    name: SonarQube Analysis
+    name: Inspect
     needs: build
     runs-on: ubuntu-latest
     steps:
