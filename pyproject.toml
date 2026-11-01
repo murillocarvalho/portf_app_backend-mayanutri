@@ -1,3 +1,19 @@
+[tool.poetry]
+name = "portf-backend-mayanutri"
+version = "1.0.0"
+description = "Backend Python do Mayanutri"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.11"
+flask = "3.0.0"
+flask-cors = "6.0.5"
+supabase = "2.31.0"
+python-dotenv = "1.0.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "*"
+
 [tool.ruff.lint]
 ignore = [
     "I001", # Ignora a ordem de importações (isort)
