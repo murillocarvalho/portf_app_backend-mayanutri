@@ -13,6 +13,8 @@ python-dotenv = "1.0.0"
 
 [tool.poetry.group.test.dependencies]
 pytest = "*"
+pytest-cov = "*"
+coverage = "*"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "*"

@@ -43,12 +43,13 @@ jobs:
       - name: Install dependencies
         id: deps-coverage
         run: |
-          pip install pytest pytest-cov coverage
+          pip install poetry
+          poetry install
 
       - name: Execute tests
         id: cov-report
         run: |
-          pytest --cov=src --cov-report=xml
+          poetry run pytest --cov=src --cov-report=xml
 
       - name: SonarQube Scan
         uses: SonarSource/sonarcloud-github-action@master
