@@ -53,6 +53,19 @@ jobs:
 
       - name: SonarQube Scan
         uses: SonarSource/sonarcloud-github-action@master
+        with:
+          args: >
+            -Dsonar.qualitygate.wait=true
+            -Dsonar.qualitygate.timeout=300
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+      - name: SonarQube project link
+        if: always()
+        env:
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: |
+          project_url="${SONAR_HOST_URL%/}/dashboard?id=portf-backend-mayanutri"
+          echo "SonarQube project: $project_url"
+          printf '[Open project in SonarQube](%s)\n' "$project_url" >> "$GITHUB_STEP_SUMMARY"
