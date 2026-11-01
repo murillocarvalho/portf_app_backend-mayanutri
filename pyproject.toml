@@ -14,6 +14,12 @@ python-dotenv = "1.0.0"
 [tool.poetry.group.test.dependencies]
 pytest = "*"
 
+[tool.poetry.group.dev.dependencies]
+ruff = "*"
+mypy = "*"
+bandit = "*"
+types-flask-cors = "*"
+
 [tool.ruff.lint]
 ignore = [
     "I001", # Ignora a ordem de importações (isort)

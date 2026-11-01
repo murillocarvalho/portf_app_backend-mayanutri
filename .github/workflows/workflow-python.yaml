@@ -22,17 +22,15 @@ jobs:
           pip install poetry
           poetry install
 
-      - name: Install dependencies
-        id: deps-static-inspect
-        run: |
-          pip install ruff mypy bandit
-
       - name: Static inspection
         id: static-inspection
         run: |
-          ruff check --fix .
-          mypy .
-          bandit -r . -ll -s B201,B104
+          set -o pipefail
+          poetry run ruff check . | sed 's/All checks passed!/Ruff analyses: All checks passed!/'
+          poetry run mypy .
+          echo "mypy: All checks passed!"
+          poetry run bandit -r src tests -ll -s B201,B104
+          echo "Bandit: All checks passed!"
 
   inspect:
     name: Inspect
