@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "portf-backend-mayanutri"
-version = "1.0.0"
+version = "1.1.0"
 description = "Backend Python do Mayanutri"
 package-mode = false
 
