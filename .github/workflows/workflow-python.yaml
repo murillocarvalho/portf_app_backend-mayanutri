@@ -43,7 +43,6 @@ jobs:
       - name: Install dependencies
         id: deps-coverage
         run: |
-          pip install poetry
           poetry install
 
       - name: Execute tests
